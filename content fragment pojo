@@ -1,4 +1,3 @@
-package com.techcombank.core.pojo;
 
 import lombok.Getter;
 import lombok.Setter;
