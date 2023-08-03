@@ -1,0 +1,13 @@
+package com.techcombank.core.pojo;
+
+import lombok.Getter;
+import lombok.Setter;
+
+public class FaqCfPojo {
+    @Getter
+    @Setter
+    private String faqTitle;
+    @Getter
+    @Setter
+    private String faqDescription;
+}
