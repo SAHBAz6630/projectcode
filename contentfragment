@@ -1,0 +1,44 @@
+package com.techcombank.core.models;
+
+import com.adobe.cq.dam.cfm.ContentFragment;
+import com.techcombank.core.pojo.FaqCfPojo;
+import lombok.Getter;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.models.annotations.DefaultInjectionStrategy;
+import org.apache.sling.models.annotations.Model;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+
+@Model(adaptables = Resource.class,
+        defaultInjectionStrategy = DefaultInjectionStrategy.OPTIONAL)
+public class FaqContentFragmentModel {
+
+    @Inject
+    private String pathCfm;
+    @Getter
+    private List<FaqCfPojo> faqCfPojosList;
+    @Inject
+    private ResourceResolver resourceResolver;
+
+    @PostConstruct
+    public void init() {
+        faqCfPojosList = new ArrayList<>();
+        Resource resource = resourceResolver.getResource(pathCfm);
+        if (resource != null) {
+            Iterable<Resource> childresources = resource.getChildren();
+            for (Resource child : childresources) {
+                ContentFragment contentFragment = child.adaptTo(ContentFragment.class);
+                if (contentFragment != null) {
+                    FaqCfPojo faqCfPojo = new FaqCfPojo();
+                    faqCfPojo.setFaqTitle(contentFragment.getElement("faqTitle").getContent());
+                    faqCfPojo.setFaqDescription(contentFragment.getElement("faqDescription").getContent());
+                    faqCfPojosList.add(faqCfPojo);
+                }
+            }
+        }
+    }
+}
