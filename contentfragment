@@ -1,4 +1,3 @@
-package com.techcombank.core.models;
 
 import com.adobe.cq.dam.cfm.ContentFragment;
 import com.techcombank.core.pojo.FaqCfPojo;
